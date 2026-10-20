@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gerador de Avaliações – 4º Bimestre</title>
+<meta name="description" content="Monte uma avaliação de 10 questões em uma página, em duas colunas, com imagens do livro do estudante do 4º bimestre.">
+<link rel="icon" href="data:,">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topo">
+  <div class="topo-in">
+    <div class="marca">
+      <span class="marca-ico" aria-hidden="true">✎</span>
+      <div>
+        <h1>Gerador de Avaliações</h1>
+        <p>4º bimestre · Ciências, Língua Inglesa e Projeto de Vida · 6º e 8º anos</p>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main class="app">
+  <aside class="painel" id="painel">
+    <section class="bloco">
+      <h2><span class="n">1</span> Série e disciplina</h2>
+      <div class="seg" id="segAno" role="tablist" aria-label="Série">
+        <button type="button" data-ano="6" class="on">6º ano</button>
+        <button type="button" data-ano="8">8º ano</button>
+      </div>
+      <div class="seg" id="segDisc" role="tablist" aria-label="Disciplina"></div>
+    </section>
+
+    <section class="bloco">
+      <h2><span class="n">2</span> Habilidades</h2>
+      <div class="acoes-mini">
+        <button type="button" class="link" id="btnTodas">Marcar todas</button>
+        <button type="button" class="link" id="btnNenhuma">Limpar</button>
+      </div>
+      <div id="listaHab" class="hab-lista"></div>
+      <p class="aviso" id="avisoHab"></p>
+    </section>
+
+    <section class="bloco">
+      <h2><span class="n">3</span> Cabeçalho da prova</h2>
+      <label class="campo">Escola
+        <input type="text" id="fEscola" placeholder="Nome da escola" autocomplete="off">
+      </label>
+      <div class="duplo">
+        <label class="campo">Turma
+          <input type="text" id="fTurma" placeholder="Ex.: 6º A" autocomplete="off">
+        </label>
+        <label class="campo">Data
+          <input type="text" id="fData" placeholder="__/__/____" autocomplete="off">
+        </label>
+      </div>
+      <label class="campo">Disciplina
+        <input type="text" id="fDisc" placeholder="Disciplina" autocomplete="off">
+      </label>
+      <label class="campo">Professor(a)
+        <input type="text" id="fProf" placeholder="Nome do professor(a)" autocomplete="off">
+      </label>
+      <label class="campo">Título da avaliação
+        <input type="text" id="fTitulo" value="Avaliação do 4º Bimestre" autocomplete="off">
+      </label>
+    </section>
+
+    <section class="bloco acoes">
+      <button type="button" class="btn grande primario" id="btnGerar">Gerar nova prova</button>
+      <button type="button" class="btn grande" id="btnPdf" disabled>Baixar PDF da prova</button>
+      <div class="duplo">
+        <button type="button" class="btn" id="btnGab" disabled>Baixar gabarito</button>
+        <button type="button" class="btn" id="btnPrint" disabled>Imprimir</button>
+      </div>
+      <p class="dica">Em cada questão da prévia há o botão <b>↻ trocar</b> para sortear outra questão da mesma seleção.</p>
+    </section>
+  </aside>
+
+  <section class="previa-col">
+    <div class="previa-barra">
+      <span id="status">Escolha a série, a disciplina e as habilidades.</span>
+    </div>
+    <div class="previa" id="previa">
+      <div class="folha-wrap" id="folhaWrap">
+        <div class="folha" id="folha"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<footer class="rodape">
+  As imagens e os textos-base das questões são do Material do Estudante – 4º bimestre (Volume 4), Secretaria da Educação do Estado de São Paulo, usados aqui com fins pedagógicos.
+</footer>
+
+<script src="vendor/html2canvas.min.js"></script>
+<script src="vendor/jspdf.umd.min.js"></script>
+<script src="data/ciencias6.js"></script>
+<script src="data/ciencias8.js"></script>
+<script src="data/ingles6.js"></script>
+<script src="data/ingles8.js"></script>
+<script src="data/pv.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

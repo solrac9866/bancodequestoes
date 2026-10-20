@@ -100,6 +100,7 @@ body {
 .folha .q-top { display: flex; gap: 5px; }
 .folha .q-num { flex: none; font-weight: 700; width: 1.5em; }
 .folha .q-stem { flex: 1; }
+.folha .q-texto { margin: 2px 0 2px 1.5em; padding: 1px 0 1px 6px; border-left: 2px solid #888; font-style: italic; color: #222; font-size: calc(var(--fs) - .3px); line-height: 1.25; }
 .folha .q-fig { margin: 3px 0 3px 1.5em; text-align: center; }
 .folha .q-fig img { max-width: 100%; max-height: var(--imgh); width: auto; height: auto; object-fit: contain; border: .5px solid #bbb; border-radius: 3px; display: inline-block; vertical-align: top; }
 .folha .alts { margin: 2px 0 0 1.5em; display: grid; gap: 1px; }

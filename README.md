@@ -6,19 +6,19 @@ Site estático (sem servidor): escolha série, disciplina e habilidades, preench
 - Abrir `index.html` direto no navegador (funciona sem internet), ou publicar a pasta inteira (GitHub Pages, Netlify, Drive etc.).
 - Para testar localmente com servidor: `python -m http.server 5188` dentro desta pasta.
 
-## Conteúdo do banco (370 questões)
-| Série | Disciplina | Habilidades |
-|---|---|---|
-| 6º | Ciências | 6 |
-| 6º | Língua Inglesa | 6 |
-| 6º | Projeto de Vida | 4 |
-| 8º | Ciências | 7 |
-| 8º | Língua Inglesa | 4 |
-| 8º | Projeto de Vida | 4 |
+## Conteúdo do banco (1.520 questões, 119 habilidades)
+| Ano | Disciplinas |
+|---|---|
+| 6º | Ciências, Língua Inglesa, Projeto de Vida, História, Geografia |
+| 7º | Ciências, Língua Inglesa, Projeto de Vida, História, Geografia, Língua Portuguesa, Matemática |
+| 8º | Ciências, Língua Inglesa, Projeto de Vida, História, Geografia |
+| 9º | Ciências, Língua Inglesa, Projeto de Vida, História, Geografia |
+
+Faltam (ainda sem os PDFs): Língua Portuguesa e Matemática do 6º, 8º e 9º anos.
 
 ## Estrutura
-- `data/ciencias6.js`, `ciencias8.js`, `ingles6.js`, `ingles8.js`, `pv.js`: habilidades e questões. Em cada questão a **primeira alternativa é a correta**; o site embaralha ao gerar a prova.
-- `data/imagens6.js`, `imagens8.js`: figuras do livro embutidas (base64), carregadas só quando a série é usada.
+- `data/*.js` (`ciencias6/8`, `ingles6/8`, `pv`, `livro_*`): habilidades e questões. Em cada questão a **primeira alternativa é a correta**; o site embaralha ao gerar a prova.
+- `data/imgs/<ano>_<disciplina>.js`: figuras do livro embutidas (base64), carregadas só quando aquela disciplina é usada.
 - `img/`: os mesmos recortes em JPG (referência).
 - `vendor/`: html2canvas e jsPDF (geração do PDF no navegador).
 
@@ -29,4 +29,4 @@ Em um arquivo de `data/`, acrescente:
 add('EF06CI06', 'c6_niveis', 'Enunciado…', ['Correta', 'Errada 1', 'Errada 2', 'Errada 3'], 1);
 //   habilidade   imagem      enunciado      alternativas (1ª = correta)                    aula
 ```
-Para novas figuras: salve o JPG em `img/` e rode de novo o empacotamento das imagens (script que gera `data/imagens6.js` e `data/imagens8.js`).
+Para novas figuras: salve o JPG em `img/` e rode `node tools/empacotar_imagens.js`. Veja também `tools/GUIA_NOVOS_LIVROS.md`. Campo opcional `texto` na questão mostra um trecho digitado (citação) acima da figura.

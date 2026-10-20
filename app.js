@@ -29,15 +29,17 @@
   const qDaHab = (id) => BANCO.q.filter((q) => q.hab === id);
 
   /* ------------------------------------------------- carregar imagens */
-  function carregarImagens(ano) {
-    if (estado.imgsCarregadas[ano]) return estado.imgsCarregadas[ano];
-    estado.imgsCarregadas[ano] = new Promise((res, rej) => {
+  const slug = (t) => t.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  function carregarImagens(ano, disc) {
+    const chave = ano + '_' + slug(disc);
+    if (estado.imgsCarregadas[chave]) return estado.imgsCarregadas[chave];
+    estado.imgsCarregadas[chave] = new Promise((res, rej) => {
       const s = document.createElement('script');
-      s.src = 'data/imagens' + ano + '.js';
-      s.onload = () => res(); s.onerror = () => { delete estado.imgsCarregadas[ano]; rej(new Error('imagens')); };
+      s.src = 'data/imgs/' + chave + '.js';
+      s.onload = () => res(); s.onerror = () => { delete estado.imgsCarregadas[chave]; rej(new Error('imagens')); };
       document.head.appendChild(s);
     });
-    return estado.imgsCarregadas[ano];
+    return estado.imgsCarregadas[chave];
   }
   const DIM = {};
   function medirImagens() {
@@ -163,6 +165,7 @@
     return '<div class="q" data-i="' + i + '">' +
       '<button type="button" class="troca" data-troca="' + i + '" title="Trocar esta questão">↻ trocar</button>' +
       '<div class="q-top"><span class="q-num">' + (i + 1) + '.</span><span class="q-stem">' + esc(q.stem) + '</span></div>' +
+      (q.texto ? '<div class="q-texto">' + esc(q.texto) + '</div>' : '') +
       (img ? '<div class="q-fig"><img src="' + img + '" alt=""' + tamanhoImg(q.img, cw, fs, ih) + '></div>' : '') +
       '<div class="alts' + (curtas ? ' duas' : '') + '">' +
       item.alts.map((a, k) => '<div class="alt"><b>' + LETRAS[k] + ')</b><span>' + esc(a.t) + '</span></div>').join('') +
@@ -226,7 +229,7 @@
     if (!estado.marcadas.size) { toast('Marque ao menos uma habilidade.'); return; }
     if (totalSelecionado() < N_QUESTOES) { toast('Faltam questões: marque mais uma habilidade para chegar a 10.'); return; }
     $('status').textContent = 'Carregando imagens do livro…';
-    try { await carregarImagens(estado.ano); await medirImagens(); } catch (e) { toast('Não foi possível carregar as imagens (data/imagens' + estado.ano + '.js).'); }
+    try { await carregarImagens(estado.ano, estado.disc); await medirImagens(); } catch (e) { toast('Não foi possível carregar as imagens (data/imgs/).'); }
     estado.prova = sortear();
     renderFolha();
     ['btnPdf', 'btnGab', 'btnPrint'].forEach((id) => { $(id).disabled = false; });
@@ -307,12 +310,18 @@
       });
     });
     // série
-    $('segAno').querySelectorAll('button').forEach((b) => {
+    const anos = [...new Set(BANCO.hab.map((h) => h.ano))].sort((a, b) => a - b);
+    if (!anos.includes(estado.ano)) estado.ano = anos[0];
+    const segAno = $('segAno'); segAno.innerHTML = '';
+    anos.forEach((a) => {
+      const b = document.createElement('button'); b.type = 'button'; b.dataset.ano = a; b.textContent = a + 'º ano';
+      b.className = a === estado.ano ? 'on' : '';
       b.onclick = () => {
-        estado.ano = +b.dataset.ano; estado.marcadas.clear();
-        $('segAno').querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
+        estado.ano = a; estado.marcadas.clear();
+        segAno.querySelectorAll('button').forEach((x) => x.classList.toggle('on', x === b));
         montarDisciplinas(); montarHabilidades(); preencherDisc();
       };
+      segAno.appendChild(b);
     });
     $('btnTodas').onclick = () => { habsAtuais().forEach((h) => estado.marcadas.add(h.id)); montarHabilidades(); };
     $('btnNenhuma').onclick = () => { estado.marcadas.clear(); montarHabilidades(); };

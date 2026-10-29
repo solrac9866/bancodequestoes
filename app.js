@@ -5,6 +5,8 @@
   const N_QUESTOES = 10;
   const LETRAS = ['A', 'B', 'C', 'D'];
   const $ = (id) => document.getElementById(id);
+  // anos 6 a 9 = Ensino Fundamental; 10, 11 e 12 = 1ª, 2ª e 3ª série do Ensino Médio
+  const rotuloAno = (a) => (a >= 10 ? (a - 9) + 'ª série' : a + 'º ano');
 
   const estado = {
     ano: 6,
@@ -233,7 +235,7 @@
     estado.prova = sortear();
     renderFolha();
     ['btnPdf', 'btnGab', 'btnPrint'].forEach((id) => { $(id).disabled = false; });
-    $('status').textContent = '10 questões geradas · ' + estado.disc + ' · ' + estado.ano + 'º ano. Passe o mouse sobre uma questão para trocá-la.';
+    $('status').textContent = '10 questões geradas · ' + estado.disc + ' · ' + rotuloAno(estado.ano) + '. Passe o mouse sobre uma questão para trocá-la.';
     if (window.innerWidth <= 900) $('previa').scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
   function trocar(i) {
@@ -250,7 +252,7 @@
   }
 
   function nomeArquivo(sufixo) {
-    const base = [estado.disc, estado.ano + 'ano', valor('fTurma')].filter(Boolean).join('_')
+    const base = [estado.disc, (estado.ano >= 10 ? (estado.ano - 9) + 'serie' : estado.ano + 'ano'), valor('fTurma')].filter(Boolean).join('_')
       .normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-zA-Z0-9_-]+/g, '-');
     return 'prova_' + base + sufixo + '.pdf';
   }
@@ -314,7 +316,7 @@
     if (!anos.includes(estado.ano)) estado.ano = anos[0];
     const segAno = $('segAno'); segAno.innerHTML = '';
     anos.forEach((a) => {
-      const b = document.createElement('button'); b.type = 'button'; b.dataset.ano = a; b.textContent = a + 'º ano';
+      const b = document.createElement('button'); b.type = 'button'; b.dataset.ano = a; b.textContent = rotuloAno(a);
       b.className = a === estado.ano ? 'on' : '';
       b.onclick = () => {
         estado.ano = a; estado.marcadas.clear();

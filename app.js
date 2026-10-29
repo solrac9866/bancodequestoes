@@ -325,6 +325,24 @@
       };
       segAno.appendChild(b);
     });
+    // nível: Ensino Fundamental (6º ao 9º ano) x Ensino Médio (séries)
+    const segNivel = $('segNivel');
+    const niveis = [['Ensino Fundamental', (a) => a < 10], ['Ensino Médio', (a) => a >= 10]].filter(([, f]) => anos.some(f));
+    const mostrarNivel = (f) => {
+      segAno.querySelectorAll('button').forEach((x) => { x.hidden = !f(+x.dataset.ano); });
+      segNivel.querySelectorAll('button').forEach((x) => x.classList.toggle('on', x._f === f));
+    };
+    segNivel.innerHTML = '';
+    niveis.forEach(([nome, f]) => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = nome; b._f = f;
+      b.onclick = () => {
+        mostrarNivel(f);
+        const primeiro = [...segAno.querySelectorAll('button')].find((x) => !x.hidden);
+        if (!f(estado.ano) && primeiro) primeiro.click();
+      };
+      segNivel.appendChild(b);
+    });
+    mostrarNivel((niveis.find(([, f]) => f(estado.ano)) || niveis[0])[1]);
     $('btnTodas').onclick = () => { habsAtuais().forEach((h) => estado.marcadas.add(h.id)); montarHabilidades(); };
     $('btnNenhuma').onclick = () => { estado.marcadas.clear(); montarHabilidades(); };
     $('btnGerar').onclick = gerar;

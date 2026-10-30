@@ -139,3 +139,6 @@ body {
   .folha { transform: none !important; position: relative !important; width: 793px; height: 1120px; }
 }
 .seg button[hidden] { display: none; }
+
+.assinatura { font-size: 12px; margin-top: 2px; }
+.assinatura a, .rodape a { color: inherit; }

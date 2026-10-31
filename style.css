@@ -144,7 +144,17 @@ body {
 .assinatura a, .rodape a { color: inherit; }
 
 /* Indicação do Corretor de Gabarito */
-.corretor { display: grid; gap: 10px; }
+.corretor { display: grid; gap: 10px; background: var(--accent-soft); border-color: var(--accent); }
 .corretor h2 { margin: 0; }
 .corretor .btn { display: block; text-align: center; text-decoration: none; }
 @media print { .corretor { display: none; } }
+
+/* Botão em destaque no topo */
+.topo-in { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.topo-corretor { display: flex; flex-direction: column; align-items: center; background: var(--accent); color: var(--accent-ink);
+  text-decoration: none; font-weight: 800; font-size: 16px; padding: 10px 20px; border-radius: 12px; box-shadow: var(--shadow); line-height: 1.25; }
+.topo-corretor small { font-weight: 500; font-size: 12px; opacity: .92; }
+.topo-corretor:hover { filter: brightness(1.1); }
+.topo-corretor:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 900px) { .topo-corretor { width: 100%; } }
+@media print { .topo-corretor { display: none; } }

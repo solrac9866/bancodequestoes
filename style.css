@@ -142,3 +142,9 @@ body {
 
 .assinatura { font-size: 12px; margin-top: 2px; }
 .assinatura a, .rodape a { color: inherit; }
+
+/* Indicação do Corretor de Gabarito */
+.corretor { display: grid; gap: 10px; }
+.corretor h2 { margin: 0; }
+.corretor .btn { display: block; text-align: center; text-decoration: none; }
+@media print { .corretor { display: none; } }
